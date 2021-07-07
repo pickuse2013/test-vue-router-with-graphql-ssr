@@ -1,12 +1,43 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
-import { createProvider } from './vue-apollo'
+import {
+    createRouter
+} from './router'
+import {
+    createProvider
+} from './vue-apollo'
 
 Vue.config.productionTip = false
 
-new Vue({
-  router,
-  apolloProvider: createProvider(),
-  render: h => h(App)
-}).$mount('#app')
+export async function createApp({
+    context, // eslint-disable-line no-unused-vars
+    beforeApp = () => {},
+    afterApp = () => {}
+} = {}) {
+    const router = createRouter();
+
+    const apolloProvider = createProvider({
+        ssr: process.server
+    });
+
+    await beforeApp({
+        router,
+        apolloProvider
+    });
+
+    const app = new Vue({
+        router,
+        apolloProvider,
+        render: h => h(App)
+    });
+
+    const result = {
+        app,
+        router,
+        apolloProvider
+    };
+
+    await afterApp(result);
+
+    return result;
+}
