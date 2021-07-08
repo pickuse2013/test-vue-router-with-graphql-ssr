@@ -1,4 +1,5 @@
-# test-vue-router-with-graphql-ssr (測試 vue 與 router、graphql、ssr 連動)
+# test-vue-router-with-graphql-ssr
+# (測試 vue 與 router、graphql、ssr 連動)
 
 ## Project setup (安裝)
 ```
