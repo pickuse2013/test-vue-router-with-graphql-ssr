@@ -4,7 +4,8 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/test">Test</router-link> |
-      <router-link to="/users">Users</router-link>
+      <router-link to="/users">Users</router-link> |
+      <router-link to="/posts">文章列表</router-link>
     </div>
     <router-view/>
   </div>

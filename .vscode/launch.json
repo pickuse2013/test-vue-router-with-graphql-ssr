@@ -4,15 +4,27 @@
     // 如需詳細資訊，請瀏覽: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [{
-        "outputCapture": "std",
-        "name": "透過 NPM 除錯 ssr:serve",
-        "type": "node",
-        "request": "launch",
-        "cwd": "${workspaceRoot}",
-        "runtimeExecutable": "npm",
-        "runtimeArgs": [
-            "run-script", "dev-vs-ssr"
-        ],
-        "port": 5858
-    }]
+            "outputCapture": "std",
+            "name": "透過 NPM 除錯 ssr:serve",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script", "dev-vs-ssr", "--inspect=5858"
+            ],
+            "port": 5858,
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "vue-cli",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "C:/Users/pickuse/AppData/Roaming/npm/node_modules/@vue/cli/bin/vue.js",
+            "args": ["serve"],
+            "port": 5858
+        }
+    ]
 }

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
 import { createApolloClient, restartWebsockets } from 'vue-cli-plugin-apollo/graphql-client'
-
 // Install the vue plugin
 Vue.use(VueApollo)
 
@@ -68,9 +67,11 @@ export function createProvider (options = {}) {
         // fetchPolicy: 'cache-and-network',
       },
     },
-    errorHandler (error) {
+    // eslint-disable-next-line no-unused-vars
+    errorHandler (error, e2, e3) {
       // eslint-disable-next-line no-console
-      console.log('%cError', 'background: red; color: white; padding: 2px 4px; border-radius: 3px; font-weight: bold;', error.message)
+      // console.log('%cError', 'background: red; color: white; padding: 2px 4px; border-radius: 3px; font-weight: bold;', error.message)
+      console.error('ddd', error.graphQLErrors)
     },
   })
 

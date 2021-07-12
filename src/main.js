@@ -6,9 +6,16 @@ import {
 import {
     createProvider
 } from './vue-apollo'
+import {
+    SlatePlugin
+} from 'slate-vue2';
+
+Vue.use(SlatePlugin)
+
 
 Vue.config.productionTip = false
-
+Vue.config.debug = true;
+Vue.config.devtools = true;
 export async function createApp({
     context, // eslint-disable-line no-unused-vars
     beforeApp = () => {},
