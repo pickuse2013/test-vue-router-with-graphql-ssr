@@ -2,7 +2,7 @@ import 'isomorphic-fetch'
 import ApolloSSR from 'vue-apollo/ssr'
 import {
     createApp
-} from './main'
+} from './app'
 
 const prepareUrlForRouting = url => { // eslint-disable-line no-unused-vars
     const {

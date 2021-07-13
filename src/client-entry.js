@@ -5,7 +5,7 @@ import {
 
 import {
     createApp
-} from './main'
+} from './app'
 
 createApp({
     async beforeApp({

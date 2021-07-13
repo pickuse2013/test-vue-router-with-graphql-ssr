@@ -57,7 +57,15 @@ export function createRouter() {
             name: 'Post',
             path: '/post/:id',
             component: Post
-        }
+        },
+        // {
+        //     path: '/post/del',
+        //     name: 'PostDel',
+        //     // route level code-splitting
+        //     // this generates a separate chunk (about.[hash].js) for this route
+        //     // which is lazy-loaded when the route is visited.
+        //     component: PostDel
+        // }
     ]
 
     const router = new VueRouter({

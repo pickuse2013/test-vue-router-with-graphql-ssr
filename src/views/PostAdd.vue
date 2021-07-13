@@ -64,9 +64,9 @@
 import gql from "graphql-tag";
 import { Slate, Editable } from "slate-vue2";
 import { renderLeaf, renderElement } from "./render";
-import MarkButton from "../components/markButton";
-import BlockButton from "../components/blockButton";
-import Toolbar from "../components/toolbar";
+import MarkButton from "../components/markButton.vue";
+import BlockButton from "../components/blockButton.vue";
+import Toolbar from "../components/toolbar.vue";
 const initialValue = [
   {
     type: "paragraph",

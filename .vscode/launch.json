@@ -3,7 +3,8 @@
     // 暫留以檢視現有屬性的描述。
     // 如需詳細資訊，請瀏覽: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [{
+    "configurations": [
+        {
             "outputCapture": "std",
             "name": "透過 NPM 除錯 ssr:serve",
             "type": "node",
@@ -18,13 +19,15 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "vue-cli",
+            "name": "Lanuch Server",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "C:/Users/pickuse/AppData/Roaming/npm/node_modules/@vue/cli/bin/vue.js",
-            "args": ["serve"],
-            "port": 5858
+            "program": "${workspaceFolder}/server.js"
         }
-    ]
+    ],
+    "compounds": [{
+        "name": "Full-Stack",
+        "configurations": ["Lanuch Server"]
+    }]
 }

@@ -1,6 +1,6 @@
 <script>
-import Button from "./button";
-import Icon from "./icon";
+import Button from "./button.vue";
+import Icon from "./icon.vue";
 import { Editor } from "slate";
 import { SlateMixin } from "slate-vue2";
 
