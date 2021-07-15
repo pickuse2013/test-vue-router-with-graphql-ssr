@@ -1,50 +1,66 @@
 import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Vuex from 'vuex'
+import {
+    sync
+} from 'vuex-router-sync'
+
+import VueApollo from 'vue-apollo'
+import {
+    createApolloClient
+} from './apollo.js'
+
 import App from './App.vue'
-import {
-    createRouter
-} from './router'
-import {
-    createProvider
-} from './vue-apollo'
+import routes from './routes.js'
+// import storeOptions from './store'
 import {
     SlatePlugin
 } from 'slate-vue2';
-
+Vue.use(Vuex)
+Vue.use(VueRouter)
 Vue.use(SlatePlugin)
-
 Vue.config.productionTip = false
 Vue.config.debug = true;
 Vue.config.devtools = true;
 
-export async function createApp({
-    context, // eslint-disable-line no-unused-vars
-    beforeApp = () => {},
-    afterApp = () => {}
-} = {}) {
-    const router = createRouter();
+function createApp(context) {
+    const router = new VueRouter({
+        mode: 'history',
+        routes,
+    })
 
-    const apolloProvider = createProvider({
-        ssr: process.server
-    });
+    //   const store = new Vuex.Store(storeOptions)
 
-    await beforeApp({
-        router,
-        apolloProvider
-    });
+    // sync the router with the vuex store.
+    // this registers `store.state.route`
+    //   sync(store, router)
 
-    const app = new Vue({
+    // Vuex state restoration
+    //   if (!context.ssr && window.__INITIAL_STATE__) {
+    //     // We initialize the store state with the data injected from the server
+    //     store.replaceState(window.__INITIAL_STATE__)
+    //   }
+
+    // Apollo
+    const apolloClient = createApolloClient(context.ssr)
+    const apolloProvider = new VueApollo({
+        defaultClient: apolloClient,
+        ssr: process.server,
+    })
+
+    return {
+        app: new Vue({
+            el: '#app',
+            router,
+            apolloProvider,
+            ...App,
+        }),
         router,
         apolloProvider,
-        render: h => h(App)
-    });
+    }
 
-    const result = {
-        app,
-        router,
-        apolloProvider
-    };
-
-    await afterApp(result);
-
-    return result;
+    //store,
+    // store,
 }
+
+export default createApp

@@ -2,7 +2,8 @@ const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const srcPath = path.resolve(process.cwd(), 'src');
 const isProduction = process.env.NODE_ENV === 'production';
-
+const ExtractCssChunksPlugin = require('extract-css-chunks-webpack-plugin')
+const isProd = process.env.NODE_ENV === 'production';
 module.exports = {
     mode: process.env.NODE_ENV,
     devtool: isProduction ? 'source-map' : 'eval-source-map',
@@ -11,6 +12,9 @@ module.exports = {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 include: [srcPath],
+                options: {
+                    optimizeSSR: false,
+                }
             },
             {
                 test: /\.js$/,
@@ -41,13 +45,22 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ['css-loader']
+                use: [{
+                        loader: ExtractCssChunksPlugin.loader,
+                        options: {
+                            hot: !isProd,
+                            reloadAll: !isProd
+                        }
+                    },
+                    'css-loader'
+                ]
             },
             {
                 test: /\.styl$/,
                 use: [
                     'css-loader',
-                    'stylus-loader']
+                    'stylus-loader'
+                ]
             },
             {
                 test: /\.scss$/,
@@ -58,15 +71,24 @@ module.exports = {
             },
             {
                 test: /\.less$/i,
-                loader: [
-                    "style-loader",
-                    "css-loader",
-                    "less-loader",
-                ],
+                use: [{
+                        loader: ExtractCssChunksPlugin.loader,
+                        options: {
+                            hot: !isProd,
+                            reloadAll: !isProd
+                        }
+                    },
+                    'css-loader',
+                    'less-loader'
+                ]
             },
         ]
     },
     plugins: [
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new ExtractCssChunksPlugin({
+            filename: isProd ? 'css/[name].[contenthash:8].css' : '[name].css',
+            chunkFilename: isProd ? 'css/[name].[contenthash:8].chunk.css' : '[name].chunk.css'
+        })
     ]
 };

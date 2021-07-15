@@ -1,36 +1,30 @@
-import 'isomorphic-fetch'
+// server-entry.js
+
 import ApolloSSR from 'vue-apollo/ssr'
-import {
-    createApp
-} from './app'
+import createApp from './app.js'
 
-const prepareUrlForRouting = url => { // eslint-disable-line no-unused-vars
-    const {
-        BASE_URL
-    } = process.env
-    return url.startsWith(BASE_URL.replace(/\/$/, '')) ?
-        url.substr(BASE_URL.length) :
-        url
-}
+export default (context) => new Promise((resolve, reject) => {
+  const { app, router, store, apolloProvider } = createApp({
+    ssr: true,
+  })
 
-export default context => {
-    return new Promise(async (resolve, reject) => { // eslint-disable-line no-async-promise-executor
-        const {
-            app,
-            router,
-            apolloProvider
-        } = await createApp()
+  // set router's location
+  router.push(context.url)
 
-        router.push(prepareUrlForRouting(context.url))
-        //router.push(context.url)
+  // wait until router has resolved possible async hooks
+  router.onReady(() => {
+    // This `rendered` hook is called when the app has finished rendering
+    context.rendered = () => {
+      // After the app is rendered, our store is now
+      // filled with the state from our components.
+      // When we attach the state to the context, and the `template` option
+      // is used for the renderer, the state will automatically be
+      // serialized and injected into the HTML as `window.__INITIAL_STATE__`.
+      //context.state = store.state
 
-        router.onReady(() => {
-            context.rendered = () => {
-
-                // Same for Apollo client cache
-                context.apolloState = ApolloSSR.getStates(apolloProvider)
-            }
-            resolve(app)
-        }, reject)
-    })
-}
+      // ALso inject the apollo cache state
+      context.apolloState = ApolloSSR.getStates(apolloProvider)
+    }
+    resolve(app)
+  })
+})
