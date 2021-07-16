@@ -1,10 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
-import {
-    sync
-} from 'vuex-router-sync'
-
 import VueApollo from 'vue-apollo'
 import {
     createApolloClient
@@ -12,6 +8,8 @@ import {
 
 import App from './App.vue'
 import routes from './routes.js'
+import createStore from './store';
+
 // import storeOptions from './store'
 import {
     SlatePlugin
@@ -29,7 +27,7 @@ function createApp(context) {
         routes,
     })
 
-    //   const store = new Vuex.Store(storeOptions)
+    const store = createStore(context.state);
 
     // sync the router with the vuex store.
     // this registers `store.state.route`
@@ -48,19 +46,20 @@ function createApp(context) {
         ssr: process.server,
     })
 
-    return {
-        app: new Vue({
-            el: '#app',
-            router,
-            apolloProvider,
-            ...App,
-        }),
+    const app = new Vue({
+        el: '#app',
+        store,
         router,
         apolloProvider,
-    }
+        ...App,
+    });
 
-    //store,
-    // store,
+    return {
+        app,
+        store,
+        router,
+        apolloProvider,
+    };
 }
 
-export default createApp
+export default createApp;

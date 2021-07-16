@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <h1>文章列表</h1>
+    <h1>文章列表dddss</h1>
 
     <div class="container">
       <router-link
@@ -13,7 +13,7 @@
       <table class="table">
         <thead>
           <tr>
-            <td>標題</td>
+            <td>標題ddd</td>
             <td>作者</td>
             <td>發布日期</td>
             <td>操作</td>

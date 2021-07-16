@@ -23,14 +23,7 @@ module.exports = merge(base, {
         extensions: ['.js', '.vue'],
     },   
     module: {
-        rules: [  
-            {
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                    preserveWhitespace: false,
-                }
-            },        
+        rules: [   
             {
                 test: /\.css$/,
                 use: [
